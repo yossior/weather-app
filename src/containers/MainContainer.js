@@ -1,21 +1,24 @@
 import React, { Component } from 'react'
 import MainComponent from '../components/MainComponent'
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ForecastContainer from './ForecastContainer';
 import FavoritsContainer from './FavoritsContainer';
 
 class MainContainer extends Component {
+
     render() {
         return (
             <div>
-                <MainComponent />
-                {/* <Router>
+                <Router >
                     <div>
-                        <Route exact path="" Component={ForecastContainer} />
-                        <Route path="/forecast" Component={ForecastContainer} />
-                        <Route path="/favorits" Component={FavoritsContainer} />
+                        <MainComponent  />
+                        <Switch>
+                            <Route exact path="/" component={ForecastContainer} />
+                            <Route path="/forecast" component={ForecastContainer} />
+                            <Route path="/favorits" component={FavoritsContainer} />
+                        </Switch>
                     </div>
-                </Router> */}
+                </Router>
             </div>
         )
     }
