@@ -3,7 +3,21 @@ import {
 } from 'redux';
 
 const initialState = {
-    currentCity: { city: 'Tel Aviv', locationKey: 215854 },
+    currentCity: {
+        "Version": 1,
+        "Key": "215854",
+        "Type": "City",
+        "Rank": 31,
+        "LocalizedName": "Tel Aviv",
+        "Country": {
+            "ID": "IL",
+            "LocalizedName": "Israel"
+        },
+        "AdministrativeArea": {
+            "ID": "TA",
+            "LocalizedName": "Tel Aviv"
+        }
+    },
     APIKey: 'OLKAewnJK1b3SjIGRtjRnUTNqAcldZei',
 }
 

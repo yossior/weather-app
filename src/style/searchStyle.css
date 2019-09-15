@@ -1,0 +1,27 @@
+@media only screen and (min-width: 768px) {
+    .search{
+        width: 150px;
+        position: absolute;
+        top: 10px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        z-index: 1
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .search{
+        width: 150px;
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        right: 0;
+        bottom: 0;
+        
+        z-index: 1
+    }    
+  }

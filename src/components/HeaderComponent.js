@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
 import { Collapse, Navbar, Nav, NavItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import SearchComponent from "../containers/SearchContainer";
-
-const searchStyle = {
-    width: "250px",
-    position: 'absolute',
-    top: '10px',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    margin: 'auto',
-    zIndex: 1
-}
+import SearchContainer from "../containers/SearchContainer";
+import "../style/searchStyle.css";
 
 export class HeaderComponent extends Component {
     render() {
         return (
             <div>
-                <div style={searchStyle}>
-                    <SearchComponent />
+                <div className="search">
+                    <SearchContainer />
                 </div>
-                <Navbar color="light" light expand="md" style={{ height: '60px' }}>
+                <Navbar color="light" light expand="xs" style={{ height: '60px' }}>
                     <Collapse navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem >

@@ -11,7 +11,7 @@ export const resetSuggestions = () => {
     return { type: "SUGS-UPDATE", payload: { suggesions: [] } };
 }
 
-export const pickCity = (locationKey) => {
+export const pickCity = (city) => {
     debugger
-    return { type: "PICK-CITY", payload: { city: locationKey } };
+    return { type: "PICK-CITY", payload: { city } };
 }
