@@ -27,14 +27,14 @@ class ForecastComponent extends Component {
                             <Switch onChange={this.props.addOrRemoveFavorites} checked={this.props.isFavorite} />{''}
 
                         </div>
-                        <button style={{display:'none'}}>{this.props.isFavorite ? 'Remove from' : 'Add to'} favorites</button>
+                        <button style={{ display: 'none' }}>{this.props.isFavorite ? 'Remove from' : 'Add to'} favorites</button>
                         <CardTitle>{this.props.city.LocalizedName}</CardTitle>
                         <CardSubtitle>{this.props.currentConditions.WeatherText}</CardSubtitle>
-                         <CardText>{Math.round(this.props.currentConditions.Temperature.Metric.Value)}℃</CardText>
+                        <CardText>{Math.round(this.props.currentConditions.Temperature.Metric.Value)}℃</CardText>
                     </CardBody>
                 </Card>
                 <br />
-                
+
                 <Row style={rowStyle}>
 
                     {typeof this.props.forecast !== 'undefined' ?

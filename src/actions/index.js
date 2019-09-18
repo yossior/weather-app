@@ -1,4 +1,3 @@
-import { catchError } from "../assets/errorCatching";
 export const pickCity = (city, APIKey, isFavorite) => {
     return async dispatch => {
         const currentRequest = await fetch(`http://dataservice.accuweather.com/currentconditions/v1/${city.Key}?apikey=${APIKey}`);
