@@ -1,60 +1,83 @@
 import React, { Component } from 'react'
 import ForecastComponent from '../components/ForecastComponent';
 import { connect } from 'react-redux';
+import { pickCity, changeFav } from '../actions/index'
 
 class ForecastContainer extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { currentconditions: {
-            "LocalObservationDateTime": "2019-09-15T23:11:00+03:00",
-            "EpochTime": 1568578260,
-            "WeatherText": "Mostly clear",
-            "WeatherIcon": 34,
-            "HasPrecipitation": false,
-            "PrecipitationType": null,
-            "IsDayTime": false,
-            "Temperature": {
-              "Metric": {
-                "Value": 25.6,
-                "Unit": "C",
-                "UnitType": 17
-              },
-              "Imperial": {
-                "Value": 78,
-                "Unit": "F",
-                "UnitType": 18
-              }
-            },
-            "MobileLink": "http://m.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us",
-            "Link": "http://www.accuweather.com/en/il/tel-aviv/215854/current-weather/215854?lang=en-us"
-          }, forecast: [] }
+        this.state = {
+            currentConditions: {},
+            forecast: [],
+            isFavorite: props.isFavorite
+        }
     }
 
     componentDidMount() {
-        // this.getForecastAndCurrent();
+        this.getForecastAndCurrent();
     }
 
-    getForecastAndCurrent() {
-        fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${this.props.city.Key}?apikey=${this.props.APIKey}&metric=true`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(this.props, 'aaaaaa');
-                this.setState({ ...this.state, forecast: data.DailyForecasts })
+    changeFav() {
+        debugger
+        this.props._changeFav(this.props.city, !this.props.isFavorite)
+    }
 
-            })
-        fetch(`http://dataservice.accuweather.com/currentconditions/v1/${this.props.city.Key}?apikey=${this.props.APIKey}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data, 'bbbbbbb');
-                this.setState({ ...this.state, currentconditions: data.DailyForecasts })
-            })
+    checkIfFavorite() {
+        if (localStorage.getItem('favorites') === null || localStorage.getItem('favorites') === '') {
+            localStorage.setItem('favorites', '[]')
+        }
+
+        if (localStorage.getItem('favorites') !== '' && localStorage.getItem('favorites') !== null) {
+            const favorites = JSON.parse(localStorage.getItem("favorites"));
+            if (favorites.some(fav => fav.Key === this.props.city.Key)) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
+    addOrRemoveFavorites = () => {
+        if (localStorage.getItem('favorites') === null || localStorage.getItem('favorites') === '') {
+            localStorage.setItem('favorites', '[]')
+        }
+        const favorites = JSON.parse(localStorage.getItem("favorites"));
+        const index = favorites.findIndex(fav => {
+            debugger
+            return fav.Key === this.props.city.Key
+        });
+        debugger
+        if (index === -1) {
+            favorites.push({ name: this.props.city.LocalizedName, Key: this.props.city.Key, Country: this.props.city.Country });
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+        } else {
+            favorites.splice(index, 1);
+            localStorage.setItem('favorites', favorites);
+        }
+        this.setState({ ...this.state, isFavorite: !this.state.isFavorite })
+        this.changeFav();
+
+    }
+
+
+
+
+
+    getForecastAndCurrent() {
+        this.props._pickCity(this.props.city, this.props.APIKey)
     }
 
     render() {
         return (
             <div>
-                <ForecastComponent forecast={this.state.forecast} currentConditions={this.state.currentconditions} city={this.props.city}  />
+                <ForecastComponent
+                    forecast={this.props.forecast.DailyForecasts}
+                    currentConditions={this.props.currentConditions[0]}
+                    city={this.props.city}
+                    addOrRemoveFavorites={this.addOrRemoveFavorites.bind(this)}
+                    isFavorite={this.props.isFavorite}
+                />
             </div>
 
         )
@@ -62,9 +85,11 @@ class ForecastContainer extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state);
-
-    return { city: state.locationReducer.currentCity, APIKey: state.locationReducer.APIKey }
+    return { city: state.locationReducer.currentCity, isFavorite: state.locationReducer.isFavorite, currentConditions: state.locationReducer.currentConditions, APIKey: state.locationReducer.APIKey, forecast: state.locationReducer.forecast }
 }
 
-export default connect(mapStateToProps)(ForecastContainer)
+const mapDispatchTOProps = dispatch => {
+    return { _pickCity: (city, APIKey) => dispatch(pickCity(city, APIKey)), _changeFav: (city, isFavorite) => dispatch(changeFav(city, isFavorite)) }
+}
+
+export default connect(mapStateToProps, mapDispatchTOProps)(ForecastContainer)

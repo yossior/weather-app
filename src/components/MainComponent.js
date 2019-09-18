@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import HeaderContainer from '../containers/HeaderContainer';
-import ForecastContainer from '../containers/ForecastContainer';
 
 
 class MainComponent extends Component {

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ForecastCardComponent from './ForecastCardComponent';
-import { Row, Col } from 'reactstrap';
+import { Card, CardText, CardBody, CardTitle, CardSubtitle, Row, Col } from 'reactstrap';
+import Switch from "react-switch";
 
 const rowStyle = {
     position: 'absolute',
-    top: '200px',
+    top: '300px',
     left: 0,
     right: 0,
     bottom: 0,
@@ -12,15 +13,30 @@ const rowStyle = {
 }
 
 class ForecastComponent extends Component {
+
     render() {
         return (
             <div>
+                <Card body style={{ width: "80%", display: "inline-block", backgroundColor: '#F0F0F0' }}>
+                    <CardBody>
+                        <div style={{ backgroundColor: '#FFFFFF', width: '300px', margin: 'auto' }}>
+                            <label >
+                                {this.props.isFavorite ? 'Remove from' : 'Add to'} favorites
+                            </label>
+                            <br />
+                            <Switch onChange={this.props.addOrRemoveFavorites} checked={this.props.isFavorite} />{''}
 
-                <h2>{this.props.city.LocalizedName}, {this.props.city.Country.LocalizedName}</h2>
-                <h3>{this.props.currentConditions.WeatherText}</h3>
-                <h3>{this.props.currentConditions.Temperature.Metric.Value}</h3>
-
+                        </div>
+                        <button style={{display:'none'}}>{this.props.isFavorite ? 'Remove from' : 'Add to'} favorites</button>
+                        <CardTitle>{this.props.city.LocalizedName}</CardTitle>
+                        <CardSubtitle>{this.props.currentConditions.WeatherText}</CardSubtitle>
+                         <CardText>{Math.round(this.props.currentConditions.Temperature.Metric.Value)}℃</CardText>
+                    </CardBody>
+                </Card>
+                <br />
+                
                 <Row style={rowStyle}>
+
                     {typeof this.props.forecast !== 'undefined' ?
                         (this.props.forecast.map((forecast, key) => {
                             // Giving the first element "offset:1" to center equally 5 cols in a 12 cols reactstrap row
@@ -32,12 +48,7 @@ class ForecastComponent extends Component {
                         ) : <div />
                     }
                 </Row>
-
-
-
-
             </div>
-
         )
     }
 }

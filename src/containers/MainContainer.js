@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import MainComponent from '../components/MainComponent'
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ForecastContainer from './ForecastContainer';
-import FavoritsContainer from './FavoritsContainer';
+import FavoritesContainer from './FavoritesContainer';
 
 class MainContainer extends Component {
 
@@ -15,7 +15,7 @@ class MainContainer extends Component {
                         <Switch>
                             <Route exact path="/" component={ForecastContainer} />
                             <Route path="/forecast" component={ForecastContainer} />
-                            <Route path="/favorits" component={FavoritsContainer} />
+                            <Route path="/favorites" component={FavoritesContainer} />
                         </Switch>
                     </div>
                 </Router>

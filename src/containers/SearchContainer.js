@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import SearchComponent from '../components/SearchComponent';
 import { connect } from 'react-redux';
-import { pickCity } from '../actions'
+import { pickCity } from '../actions';
+import { catchError } from "../assets/errorCatching";
 
 export class SearchContainer extends Component {
-
     constructor(props) {
         super(props);
         this.state = { APIKey: '', suggestedCities: [], showSuggestions: false, userInput: '' };
@@ -26,7 +26,7 @@ export class SearchContainer extends Component {
 
     pickCity = (city) => {
         this.setState({ ...this.state, showSuggestions: false, suggestedCities: [] })
-        this.props._pickCity(city);
+        this.props._pickCity(city, this.props.APIKey);
     };
 
     handleChange = (e) => {
@@ -38,21 +38,20 @@ export class SearchContainer extends Component {
                 })
                 .then(cities => {
                     this.setState({ ...this.state, suggestedCities: cities, showSuggestions: true })
-                });
+                })
+                .catch(e => catchError(e));
         } else {
-            this.setState({ ...this.state, suggestedCities: '', })
+            this.setState({ ...this.state, suggestedCities: '', showSuggestions: false })
         }
     }
 }
 
 const mapStateToProps = state => {
-    console.log(state, 'ddddddddddddddddddddddddddd');
-
     return { APIKey: state.locationReducer.APIKey }
 }
 
 const mapDispatchToProps = dispatch => {
-    return { _pickCity: (city) => dispatch(pickCity(city)) }
+    return { _pickCity: (city, APIKey) => dispatch(pickCity(city, APIKey)) }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer);

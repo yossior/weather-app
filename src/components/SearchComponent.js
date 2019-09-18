@@ -16,7 +16,7 @@ export class SearchComponent extends Component {
                     (this.props.suggestedCities !== [] && this.props.showSuggestions) ?
                         <div>
                             <ListGroup>
-                                {this.props.suggestedCities.map((city, index) => {
+                                {this.props.suggestedCities.map((city, key) => {
                                     return (
                                         <ListGroupItem tag="button" action onClick={this.props.pickCity.bind(null,city)}>
                                             {`${city.LocalizedName}, ${city.Country.LocalizedName}`}

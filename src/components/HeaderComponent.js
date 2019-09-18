@@ -18,7 +18,7 @@ export class HeaderComponent extends Component {
                                 <Link to="/forecast" className="col-sm-2 menu-item">Forecast</Link>
                             </NavItem>
                             <NavItem width="50%">
-                                <Link to="/favorits" className="col-sm-2 menu-item">Favorits</Link>
+                                <Link to="/favorites" className="col-sm-2 menu-item">Favorites</Link>
                             </NavItem>
                         </Nav>
                     </Collapse>
